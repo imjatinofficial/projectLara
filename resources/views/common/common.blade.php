@@ -25,7 +25,13 @@
                         <a class="{{ Request::is('services') ? 'nav-link active' : 'nav-link' }}" href="/services">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="{{ Request::is('blog') ? 'nav-link active' : 'nav-link' }}" href="/blog">Blog</a>
+                        <a class="{{ Request::is('posts') ? 'nav-link active' : 'nav-link' }}" href="/post">Posts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="{{ Request::is('create') ? 'nav-link active' : 'nav-link' }}" href="/post/create">Create Post</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="{{ Request::is('blog') ? 'nav-link active' : 'nav-link' }}" href="/blogShow">Blog</a>
                     </li>
                 </ul>
                 <span class="navbar-text">

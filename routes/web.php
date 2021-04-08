@@ -23,5 +23,8 @@ Route::get('/services', 'PagesController@services');
 Route::get('/blog', 'PagesController@blog');
 Route::get('/login', 'PagesController@login');
 Route::get('/register', 'PagesController@register');
+// Route::get('/posts', 'PagesController@posts');
 
 Route::resource('/registration', 'RegistrationController');
+Route::resource('/blogShow', 'BlogController');
+Route::resource('/post', 'PostsController');

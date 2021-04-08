@@ -35,4 +35,7 @@ class PagesController extends Controller
     {
         return view('register');
     }
+    function posts() {
+        return view('posts');
+    }
 }

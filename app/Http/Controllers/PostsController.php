@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Register;
 use Illuminate\Http\Request;
+use App\Models\Posts;
+use DB;
 
-class RegistrationController extends Controller
+class PostsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +15,8 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        //
-        $register = Register::all();
-        $reg = Register::orderBy('id');
-        return view('login')->with('register', $register);
+        $posts = Posts::orderBy('id', 'desc')->Paginate(3);
+        return view('posts')->with('posts', $posts);
     }
 
     /**
@@ -27,8 +26,7 @@ class RegistrationController extends Controller
      */
     public function create()
     {
-        //
-        return view('register');
+        return view('create');
     }
 
     /**
@@ -39,24 +37,20 @@ class RegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $firstName = $request->input('first_name');
-        $lastName = $request->input('last_name');
-        $email = $request->input('email');
-        $userPass = $request->input('user_password');
-        $gender = $request->input('gender');
-        $dob = $request->input('dob');
-        $contactNo = $request->input('contactno');
-        $address = $request->input('address');
+        $request->validate([
+            'title'=>'required',
+            'body'=>'required'
+        ]);
 
-        echo 'FirstName : ' . $firstName . '<br>' . 
-        'LastName : ' . $lastName . '<br>' . 
-        'E-mail address : ' . $email . '<br>' . 
-        'Password : ' . $userPass . '<br>' . 
-        'Gender : ' . $gender . '<br>' . 
-        'Date of Birth : ' . $dob . '<br>' . 
-        'Contact Number : ' . $contactNo . '<br>' .
-        'Address : ' . $address;
+        $title =$request->input('title');
+        $body = $request->input('body');
+
+        $post = new Posts();
+        $post->title = $title;
+        $post->body = $body;
+        $post->save();
+
+        return 'data inserted';
     }
 
     /**
@@ -67,7 +61,8 @@ class RegistrationController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Posts::find($id);
+        return view('show')->with('post', $post);
     }
 
     /**

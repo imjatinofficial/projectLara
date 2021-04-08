@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class RegisterationController extends Controller
+class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,23 +35,36 @@ class RegisterationController extends Controller
      */
     public function store(Request $request)
     {
-        $firstName = $request->input('first_name');
-        $lastName = $request->input('last_name');
-        $email = $request->input('email');
-        $userPass = $request->input('user_password');
-        $gender = $request->input('gender');
-        $dob = $request->input('dob');
-        $contactNo = $request->input('contact_no');
-        $address = $request->input('address');
+        
+        $request->validate([
+            'username'=>'required | max:10',
+            'password'=>'required | min:5',
+            'cover_image'=>'required | image | max:1999'
+        ]);
 
-        echo 'FirstName : ' . $firstName . '<br>' . 
-        'LastName : ' . $lastName . '<br>' . 
-        'E-mail address : ' . $email . '<br>' . 
-        'Password : ' . $userPass . '<br>' . 
-        'Gender : ' . $gender . '<br>' . 
-        'Date of Birth : ' . $dob . '<br>' . 
-        'Contact Number : ' . $contactNo . '<br>' .
-        'Address : ' . $address;
+        $user = $request->input('username');
+        $password = $request->input('password');
+        
+        if ($request->hasFile('cover_image')) {
+            $fileNameWithExt = $request->file('cover_image')->getClientOriginalName();
+            $ext = $request->file('cover_image')->getClientOriginalExtension();
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $fileNameToStore = $fileName.'_'.rand(10,1000).time().'.'.$ext;
+            $path = $request->file('cover_image')->storeAs('public/cover_image', $fileNameToStore);
+            move_uploaded_file($fileNameToStore, 'public/cover_image');
+            echo $fileNameWithExt.'<br>';
+            echo $ext.'<br>';
+            echo $fileName.'<br>';
+            echo $fileNameToStore.'<br>';
+            echo $path.'<br>';
+        }
+        // $data = array(
+        //     'user'=>$user,
+        //     'password'=>$password,
+        //     'image'=>$fileNameToStore,
+        // );
+        
+        // return view('blog')->with($data);
     }
 
     /**
