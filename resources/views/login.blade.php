@@ -8,7 +8,7 @@
     @endforeach
 </ul>
 @endif
-<form class="well form-horizontal" action="/blogShow" method="post" enctype="multipart/form-data">
+<form class="well form-horizontal" action="/login" method="post" enctype="multipart/form-data">
       @csrf
       <fieldset>
 
@@ -36,15 +36,6 @@
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
               <input name="password" placeholder="Password" class="form-control" type="password">
-            </div>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label class="col-md-4 control-label">Image</label>
-          <div class="col-md-4 inputGroupContainer">
-            <div class="input-group">
-              <input name="cover_image" placeholder="Image" class="form-control" type="file">
             </div>
           </div>
         </div>

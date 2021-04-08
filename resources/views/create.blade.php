@@ -8,46 +8,48 @@
     @endforeach
 </ul>
 @endif
-<form class="well form-horizontal" action="/post" method="post" enctype="multipart/form-data">
-    @csrf
-    <fieldset>
+<main class="container">
+    <div class="bg-light p-5 rounded">
+        <form class="well form-horizontal" action="/post" method="post" enctype="multipart/form-data">
+            @csrf
+            <fieldset>
 
-        <!-- Form Name -->
-        <legend>
-            <center>
-                <h2><b>Login Form</b></h2>
-            </center>
-        </legend><br>
+                <!-- Form Name -->
+                <legend>
+                    <center>
+                        <h2><b>Create Post</b></h2>
+                    </center>
+                </legend><br>
 
-        <!-- E-Mail -->
-        <div class="form-group">
-            <label class="col-md-4 control-label">Post Title</label>
-            <div class="col-md-4 inputGroupContainer">
-                <div class="input-group">
-                    <input name="title" placeholder="Post Title" class="form-control" type="text">
+                <div class="form-group">
+                    <label for="exampleInputEmail">Post Title</label>
+                    <input type="text" name="title" class="form-control" id="exampleInputEmail">
+                    <span style="color:red">@error('title'){{$message}}@enderror</span>
                 </div>
-            </div>
-        </div>
 
-
-        <div class="form-group">
-            <label class="col-md-4 control-label">Post Description</label>
-            <div class="col-md-4 inputGroupContainer">
-                <div class="input-group">
-                    <textarea name="body" placeholder="Description" class="form-control"></textarea>
+                <div class="form-group">
+                    <label for="exampleInputDetails">Post Description</label>
+                    <input type="text" name="body" class="form-control" id="exampleInputDetails">
+                    <span style="color:red">@error('body'){{$message}}@enderror</span>
                 </div>
-            </div>
-        </div>
 
-        <!-- Button -->
-        <div class="form-group">
-          <label class="col-md-4 control-label"></label>
-          <div class="col-md-4"><br>
-            <button type="submit" class="btn btn-warning">SUBMIT</button>
-          </div>
-        </div>
+                <div class="form-group">
+                    <label for="exampleInputImage">Image</label>
+                    <input type="file" name="cover_image" class="form-control" id="exampleInputImage">
+                    <span style="color:red">@error('cover_image'){{$message}}@enderror</span>
+                </div>
 
-      </fieldset>
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-4"><br>
+                        <button type="submit" class="btn btn-warning">SUBMIT</button>
+                    </div>
+                </div>
 
-    </form>
+            </fieldset>
+
+        </form>
+    </div>
+</main>
 @endsection

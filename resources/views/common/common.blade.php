@@ -30,9 +30,6 @@
                     <li class="nav-item">
                         <a class="{{ Request::is('create') ? 'nav-link active' : 'nav-link' }}" href="/post/create">Create Post</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="{{ Request::is('blog') ? 'nav-link active' : 'nav-link' }}" href="/blogShow">Blog</a>
-                    </li>
                 </ul>
                 <span class="navbar-text">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">

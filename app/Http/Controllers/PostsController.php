@@ -38,16 +38,26 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'required',
-            'body'=>'required'
+            'title'=>'required | max:10',
+            'body'=>'required',
+            'cover_image'=>'required | image | max:10000'
         ]);
 
         $title =$request->input('title');
         $body = $request->input('body');
 
+        if ($request->hasFile('cover_image')) {
+            $fileNameWithExt = $request->file('cover_image')->getClientOriginalName();
+            $ext = $request->file('cover_image')->getClientOriginalExtension();
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $fileNametoStore = $fileName.'_'.rand(10,1000).time().'.'.$ext;
+            $path = $request->file('cover_image')->storeAs('public/cover_image', $fileNametoStore);
+        }
+
         $post = new Posts();
         $post->title = $title;
         $post->body = $body;
+        $post->cover_image = $fileNametoStore;
         $post->save();
 
         return 'data inserted';
