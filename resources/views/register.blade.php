@@ -2,6 +2,7 @@
 @section('content')
 <div class="container center_div">
   <div class="jumbotron">
+  {{$errors->all()}}
 
     <form class="well form-horizontal" action="/registration" method="post" id="contact_form">
       @csrf
@@ -19,9 +20,10 @@
           <label class="col-md-4 control-label">First Name</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
-              <input name="first_name" placeholder="First Name" class="form-control" type="text" required>
+              <input name="first_name" placeholder="First Name" class="form-control" type="text" >
             </div>
           </div>
+          <span style="color:red"> @error('fname'){{$message}} @enderror</span>
         </div>
 
         <!-- Last Name -->
@@ -30,9 +32,10 @@
           <label class="col-md-4 control-label">Last Name</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
-              <input name="last_name" placeholder="Last Name" class="form-control" type="text" required>
+              <input name="last_name" placeholder="Last Name" class="form-control" type="text" >
             </div>
           </div>
+          <span style="color:red"> @error('lname'){{$message}} @enderror</span>
         </div>
 
         <!-- E-Mail -->
@@ -40,9 +43,10 @@
           <label class="col-md-4 control-label">E-Mail</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
-              <input name="email" placeholder="E-Mail Address" class="form-control" type="text" required>
+              <input name="email" placeholder="E-Mail Address" class="form-control" type="text" >
             </div>
           </div>
+          <span style="color:red"> @error('email'){{$message}} @enderror</span>
         </div>
 
         <!-- Password -->
@@ -51,9 +55,10 @@
           <label class="col-md-4 control-label">Password</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
-              <input name="user_password" placeholder="Password" class="form-control" type="password" required>
+              <input name="user_password" placeholder="Password" class="form-control" type="password" >
             </div>
           </div>
+          <span style="color:red"> @error('password'){{$message}} @enderror</span>
         </div>
         <!-- Gender -->
 
@@ -61,11 +66,12 @@
           <label class="col-md-4 control-label">Gender</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="form-check">
-              <label><input type="radio" class="form-check-input" name="gender" value="Male" required>Male</label>
+              <label><input type="radio" class="form-check-input" name="gender" value="Male" >Male</label>
             </div>
             <div class="form-check">
-              <label><input type="radio" class="form-check-input" name="gender" value="Female" required>Female</label>
+              <label><input type="radio" class="form-check-input" name="gender" value="Female">Female</label>
             </div>
+            <span style="color:red"> @error('gender'){{$message}} @enderror</span>
           </div>
         </div>
 
@@ -74,8 +80,9 @@
         <div class="form-group">
           <label for="dob" class="col-md-4 control-label">Date of Birth</label>
           <div class="col-md-4 inputGroupContainer">
-            <input class="form-control" type="date" name="dob" required>
+            <input class="form-control" type="date" name="dob">
           </div>
+          <span style="color:red"> @error('DOB'){{$message}} @enderror</span>
         </div>
 
         <!-- Contact Number -->
@@ -84,20 +91,10 @@
           <label class="col-md-4 control-label">Contact No.</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
-              <input name="contactno" placeholder="+91" class="form-control" type="number" required>
+              <input name="contactno" placeholder="+91" class="form-control" type="number">
             </div>
           </div>
-        </div>
-
-        <!-- Address -->
-
-        <div class="form-group">
-          <label class="col-md-4 control-label">Address</label>
-          <div class="col-md-4 inputGroupContainer">
-            <div class="input-group">
-              <textarea name="address" class="form-control rounded-0" rows="3"  required></textarea>
-            </div>
-          </div>
+          <span style="color:red"> @error('contact'){{$message}} @enderror</span>
         </div>
 
         <!-- Button -->

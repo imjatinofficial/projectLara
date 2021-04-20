@@ -15,9 +15,6 @@ class RegistrationController extends Controller
     public function index()
     {
         //
-        $register = Register::all();
-        $reg = Register::orderBy('id');
-        return view('login')->with('register', $register);
     }
 
     /**
@@ -40,6 +37,16 @@ class RegistrationController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'email'  =>'required',
+            'user_password'  =>'required',
+            'gender'  =>'required',
+            'dob'  =>'required',
+            'contactno'  =>'required',
+            ]);
+
         $firstName = $request->input('first_name');
         $lastName = $request->input('last_name');
         $email = $request->input('email');
@@ -47,7 +54,6 @@ class RegistrationController extends Controller
         $gender = $request->input('gender');
         $dob = $request->input('dob');
         $contactNo = $request->input('contactno');
-        $address = $request->input('address');
 
         echo 'FirstName : ' . $firstName . '<br>' . 
         'LastName : ' . $lastName . '<br>' . 
@@ -55,8 +61,7 @@ class RegistrationController extends Controller
         'Password : ' . $userPass . '<br>' . 
         'Gender : ' . $gender . '<br>' . 
         'Date of Birth : ' . $dob . '<br>' . 
-        'Contact Number : ' . $contactNo . '<br>' .
-        'Address : ' . $address;
+        'Contact Number : ' . $contactNo;
     }
 
     /**

@@ -8,6 +8,16 @@
 </div>
 <main class="container">
     <div class="bg-light p-5 rounded">
+        @if ($message = Session::get('deleted'))
+        <div class="alert alert-danger" role="alert">
+            <strong>{{$message}}</strong>
+        </div>
+        @endif
+        @if ($message = Session::get('updated'))
+        <div class="alert alert-success" role="alert">
+            <strong>{{$message}}</strong>
+        </div>
+        @endif
         @foreach($posts as $post)
         <div class="shadow-sm p-4 mb-4 bg-white">
             <div class="row">

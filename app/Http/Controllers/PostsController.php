@@ -38,9 +38,9 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'=>'required | max:10',
+            'title'=>'required | max:100',
             'body'=>'required',
-            'cover_image'=>'required | image | max:10000'
+            'cover_image'=>'required | image | max:50000'
         ]);
 
         $title =$request->input('title');
@@ -60,7 +60,7 @@ class PostsController extends Controller
         $post->cover_image = $fileNametoStore;
         $post->save();
 
-        return 'data inserted';
+        return redirect('/post/create')->with('success', 'Post Added');
     }
 
     /**
@@ -84,6 +84,8 @@ class PostsController extends Controller
     public function edit($id)
     {
         //
+        $post = Posts::find($id);
+        return view('edit')->with('post',$post);
     }
 
     /**
@@ -96,6 +98,29 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate([
+            'title'=>'required | max:100',
+            'body'=>'required',
+            'cover_image'=>'required | image | max:50000'
+        ]);
+        $title =$request->input('title');
+        $body = $request->input('body');
+
+        if ($request->hasFile('cover_image')) {
+            $fileNameWithExt = $request->file('cover_image')->getClientOriginalName();
+            $ext = $request->file('cover_image')->getClientOriginalExtension();
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $fileNametoStore = $fileName.'_'.rand(10,1000).time().'.'.$ext;
+            $path = $request->file('cover_image')->storeAs('public/cover_image', $fileNametoStore);
+        }
+
+        $post = Posts::find($id);
+        $post->title = $title;
+        $post->body = $body;
+        $post->cover_image = $fileNametoStore;
+        $post->save();
+
+        return redirect('/post')->with('updated', 'Post updated');
     }
 
     /**
@@ -106,6 +131,8 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Posts::find($id);
+        $post->delete();
+        return redirect('/post')->with('deleted', 'Post Deleted');
     }
 }
