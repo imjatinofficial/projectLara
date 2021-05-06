@@ -12,6 +12,9 @@
             <br>
             <br>
             <h3>{{$post->title}}</a></h3>
+            <br>
+            <h4>Author : {{$post->author}}</h4>
+            <br>
             <p>{{$post->body}}</p><br>
             <small>Written on {{$post->created_at}}<br></small>
             <hr>

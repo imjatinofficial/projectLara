@@ -31,7 +31,7 @@
                 <div class="col-md-10 col-sm-10">
                     <h3><a href="/post/{{$post->id}}">{{$post->title}}</a></h3>
                     <hr>
-                    <small>Written on {{$post->created_at}}<br></small>
+                    <small>Written on {{$post->created_at}} by {{$post->name}}<br></small>
                 </div>
             </div>
         </div>

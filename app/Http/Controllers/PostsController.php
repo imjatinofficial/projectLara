@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Posts;
-use DB;
+use App\Models\Users;
+use Illuminate\Support\Facades\DB;
 
 class PostsController extends Controller
 {
@@ -15,7 +16,10 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Posts::orderBy('id', 'desc')->Paginate(3);
+        $posts = DB::table('posts')->join('users','posts.user_id','=','users.id')->select('posts.*','users.name')->orderBy('posts.id', 'desc')->paginate(3);
+        // $posts = Posts::orderBy('id', 'desc')->Paginate(3);
+        // $author = Users::find($posts->user_id);
+        // $posts->author = $author->name;
         return view('posts')->with('posts', $posts);
     }
 
@@ -40,11 +44,16 @@ class PostsController extends Controller
         $request->validate([
             'title'=>'required | max:100',
             'body'=>'required',
-            'cover_image'=>'required | image | max:50000'
+            'cover_image'=>'image | max:50000'
         ]);
 
         $title =$request->input('title');
         $body = $request->input('body');
+
+        $post = new Posts();
+        $post->title = $title;
+        $post->body = $body;
+        $post->user_id = auth()->user()->id;
 
         if ($request->hasFile('cover_image')) {
             $fileNameWithExt = $request->file('cover_image')->getClientOriginalName();
@@ -52,12 +61,9 @@ class PostsController extends Controller
             $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
             $fileNametoStore = $fileName.'_'.rand(10,1000).time().'.'.$ext;
             $path = $request->file('cover_image')->storeAs('public/cover_image', $fileNametoStore);
+            $post->cover_image = $fileNametoStore;
         }
-
-        $post = new Posts();
-        $post->title = $title;
-        $post->body = $body;
-        $post->cover_image = $fileNametoStore;
+        
         $post->save();
 
         return redirect('/post/create')->with('success', 'Post Added');
@@ -72,6 +78,8 @@ class PostsController extends Controller
     public function show($id)
     {
         $post = Posts::find($id);
+        $author = Users::find($post->user_id);
+        $post->author = $author->name;
         return view('show')->with('post', $post);
     }
 
@@ -101,23 +109,23 @@ class PostsController extends Controller
         $request->validate([
             'title'=>'required | max:100',
             'body'=>'required',
-            'cover_image'=>'required | image | max:50000'
+            'cover_image'=>'image | max:50000'
         ]);
         $title =$request->input('title');
         $body = $request->input('body');
 
+        $post = Posts::find($id);
+        $post->title = $title;
+        $post->body = $body;
         if ($request->hasFile('cover_image')) {
             $fileNameWithExt = $request->file('cover_image')->getClientOriginalName();
             $ext = $request->file('cover_image')->getClientOriginalExtension();
             $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
             $fileNametoStore = $fileName.'_'.rand(10,1000).time().'.'.$ext;
             $path = $request->file('cover_image')->storeAs('public/cover_image', $fileNametoStore);
+            $post->cover_image = $fileNametoStore;
         }
-
-        $post = Posts::find($id);
-        $post->title = $title;
-        $post->body = $body;
-        $post->cover_image = $fileNametoStore;
+        
         $post->save();
 
         return redirect('/post')->with('updated', 'Post updated');
